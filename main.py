@@ -1,6 +1,10 @@
 out = "s = \"\"\n"
 
 
+def equals_ignore_case(a, b):
+    return a.upper() == b.upper()
+
+
 def line_commands(arr):
     global out
     for i in range(len(arr)):
@@ -8,12 +12,12 @@ def line_commands(arr):
         if "нашлось" in command:
             try:
                 arg = command.split('(')[1][:-1]
-            except : # has spaces
-                arg = arr[i+1][1:-1]
+            except:  # has spaces
+                arg = arr[i + 1][1:-1]
             out += "\"" + arg + "\"" + " in s "
-        elif command == "или":
+        elif equals_ignore_case(command, "или"):
             out += "or "
-        elif command == "и":
+        elif equals_ignore_case(command, "и"):
             out += "and "
         elif "заменить" in command:
             try:
@@ -53,7 +57,7 @@ if __name__ == "__main__":
             tabcount += 1
             out += ":\n"
         elif parsed[0] == "КОНЕЦ":
-            out = out[:-len(TAB)*tabcount]
+            out = out[:-len(TAB) * tabcount]
             tabcount -= 1
         elif parsed[0] == "ИНАЧЕ":
             out = out[:-len(TAB)]
