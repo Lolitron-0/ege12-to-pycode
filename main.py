@@ -6,15 +6,22 @@ def line_commands(arr):
     for i in range(len(arr)):
         command = arr[i]
         if "нашлось" in command:
-            arg = command.split('(')[1][:-1]
+            try:
+                arg = command.split('(')[1][:-1]
+            except : # has spaces
+                arg = arr[i+1][1:-1]
             out += "\"" + arg + "\"" + " in s "
         elif command == "или":
             out += "or "
         elif command == "и":
             out += "and "
         elif "заменить" in command:
-            arg1 = command.split('(')[1][:-1]
-            arg2 = arr[i + 1][:-1]
+            try:
+                arg1 = command.split('(')[1][:-1]
+                arg2 = arr[i + 1][:-1]
+            except:  # has spaces
+                arg1 = arr[i + 1][1:-1]
+                arg2 = arr[i + 2][:-1]
             out += "s = s.replace(" + "\"" + arg1 + "\"" + ", " + "\"" + arg2 + "\"" + ", 1)"
 
 
@@ -43,9 +50,10 @@ if __name__ == "__main__":
         elif parsed[0] == "ЕСЛИ":
             out += "if "
             line_commands(parsed[1:])
-            out += ":\n"
             tabcount += 1
+            out += ":\n"
         elif parsed[0] == "КОНЕЦ":
+            out = out[:-len(TAB)*tabcount]
             tabcount -= 1
         elif parsed[0] == "ИНАЧЕ":
             out = out[:-len(TAB)]
