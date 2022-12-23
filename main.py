@@ -9,6 +9,8 @@ def line_commands(arr):
     global out
     for i in range(len(arr)):
         command = arr[i]
+        if "НЕ" in command or "не" in command:
+            out += "not "
         if "нашлось" in command:
             try:
                 arg = command.split('(')[1][:-1]
